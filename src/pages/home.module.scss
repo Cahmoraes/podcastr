@@ -1,7 +1,16 @@
 .homepage {
-  padding: 0 4rem;
-  height: calc(100vh - 6.5rem);
+  padding: 0 1rem;
+  height: calc(100vh - 6.5rem - 110px);
   overflow-y: auto;
+
+  @media (min-width: 768px) {
+    height: calc(100vh - 6.5rem - 100px);
+    padding: 0 4rem;
+  }
+
+  @media (min-width: 1200px) {
+    height: calc(100vh - 6.5rem);
+  }
 
   /* width */
   &::-webkit-scrollbar {
@@ -27,8 +36,12 @@
   }
 
   h2 {
-    margin-top: 3rem;
+    margin-top: 1rem;
     margin-bottom: 1.5rem;
+
+    @media (min-width: 768px) {
+      margin-top: 3rem;
+    }
   }
 }
 
@@ -36,8 +49,12 @@
   ul {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+
+    @media (min-width: 768px) {
+      gap: 1.5rem;
+    }
 
     li {
       background: var(--white);
@@ -52,11 +69,25 @@
         width: 6rem;
         height: 6rem;
         border-radius: 1rem;
+        display: none !important;
+
+        @media (min-width: 768px) {
+          display: unset !important;
+        }
+      }
+
+      .buttonPlay > img {
+        display: block !important;
+        margin: 0 auto;
       }
 
       .episodeDetails {
         flex: 1;
-        margin-left: 1rem;
+        overflow: hidden;
+
+        @media (min-width: 768px) {
+          margin-left: 1rem;
+        }
 
         a {
           display: block;
@@ -65,6 +96,9 @@
           font-weight: 600;
           text-decoration: none;
           line-height: 1.4rem;
+          word-break: break-word;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
           &:hover {
             text-decoration: underline;
@@ -140,6 +174,14 @@
     td {
       padding: 0.75rem 1rem;
       border-bottom: 1px solid var(--gray-100);
+    }
+
+    .hideOnMobile {
+      display: none;
+
+      @media (min-width: 768px) {
+        display: table-cell;
+      }
     }
 
     th {

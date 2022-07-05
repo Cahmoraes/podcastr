@@ -5,5 +5,4 @@ const nextConfig = {
     domains: ['storage.googleapis.com']
   }
 }
-
 module.exports = nextConfig

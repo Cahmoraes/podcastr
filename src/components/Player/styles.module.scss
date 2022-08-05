@@ -1,8 +1,8 @@
 .playerContainer {
   padding: 1rem;
   width: 100%;
-  height: 140px;
-
+  min-height: 140px;
+  height: 100%;
   background: var(--purple-500);
   color: var(--white);
 

@@ -5,11 +5,12 @@ import { useContext } from 'react'
 import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { GetStaticProps } from 'next'
-import { api } from '../services/api'
+// import { api } from '../services/api'
 import { PlayerContext } from '../contexts/PlayerContext'
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString'
 
 import styles from './home.module.scss'
+import axios from 'axios'
 interface Episode {
   id: string
   title: string
@@ -124,17 +125,21 @@ export default function Home({
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const { data } = await api.get('/api/episodes', {
-      params: {
-        _limit: 12,
-        _sort: 'published_at',
-        _order: 'desc',
-      },
-    })
+    // const { data } = await api.get('/api/episodes', {
+    //   params: {
+    //     _limit: 12,
+    //     _sort: 'published_at',
+    //     _order: 'desc',
+    //   },
+    // })
 
-    console.log({ data })
+    const result = await axios.get(
+      'https://mocki.io/v1/24b564ae-61cb-46a8-8466-fc518b368707',
+    )
 
-    const episodes = data.episodes.map((episode) => {
+    // console.log({ data })
+
+    const episodes = result.data.episodes.map((episode) => {
       return {
         id: episode.id,
         title: episode.title,

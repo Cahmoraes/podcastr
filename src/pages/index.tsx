@@ -9,7 +9,6 @@ import { api } from '../services/api'
 import { PlayerContext } from '../contexts/PlayerContext'
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString'
 
-
 import styles from './home.module.scss'
 interface Episode {
   id: string
@@ -27,7 +26,10 @@ interface HomeProps {
   latestEpisodes: Episode[]
 }
 
-export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
+export default function Home({
+  allEpisodes = [],
+  latestEpisodes = [],
+}: HomeProps) {
   const { playList } = useContext(PlayerContext)
 
   const episodeList = [...latestEpisodes, ...allEpisodes]
@@ -52,14 +54,16 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
               />
 
               <div className={styles.episodeDetails}>
-                <Link href={`/episodes/${episode.id}`}>
-                  {episode.title}
-                </Link>
+                <Link href={`/episodes/${episode.id}`}>{episode.title}</Link>
                 <p>{episode.members}</p>
                 <span>{episode.publishedAt}</span>
                 <span>{episode.durationAsString}</span>
               </div>
-              <button className={styles.buttonPlay} type="button" onClick={() => playList(episodeList, index)}>
+              <button
+                className={styles.buttonPlay}
+                type="button"
+                onClick={() => playList(episodeList, index)}
+              >
                 <img src="/play-green.svg" alt="Tocar episódio" />
               </button>
             </li>
@@ -92,15 +96,20 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
                   />
                 </td>
                 <td>
-                  <Link href={`/episodes/${episode.id}`}>
-                    {episode.title}
-                  </Link>
+                  <Link href={`/episodes/${episode.id}`}>{episode.title}</Link>
                 </td>
                 <td className={styles.hideOnMobile}>{episode.members}</td>
                 <td style={{ width: 100 }}>{episode.publishedAt}</td>
-                <td className={styles.hideOnMobile}>{episode.durationAsString}</td>
+                <td className={styles.hideOnMobile}>
+                  {episode.durationAsString}
+                </td>
                 <td>
-                  <button type="button" onClick={() => playList(episodeList, index + latestEpisodes.length)}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      playList(episodeList, index + latestEpisodes.length)
+                    }
+                  >
                     <img src="/play-green.svg" alt="Tocar episódio" />
                   </button>
                 </td>
@@ -114,37 +123,48 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await api.get('/api/episodes', {
-    params: {
-      _limit: 12,
-      _sort: 'published_at',
-      _order: 'desc'
-    }
-  })
-  
-  const episodes = data.episodes.map(episode => {
+  try {
+    const { data } = await api.get('/api/episodes', {
+      params: {
+        _limit: 12,
+        _sort: 'published_at',
+        _order: 'desc',
+      },
+    })
+
+    console.log({ data })
+
+    const episodes = data.episodes.map((episode) => {
+      return {
+        id: episode.id,
+        title: episode.title,
+        thumbnail: episode.thumbnail,
+        members: episode.members,
+        publishedAt: format(parseISO(episode.published_at), 'd MMM yy', {
+          locale: ptBR,
+        }),
+        duration: Number(episode.file.duration),
+        durationAsString: convertDurationToTimeString(
+          Number(episode.file.duration),
+        ),
+        url: episode.file.url,
+      }
+    })
+
+    const latestEpisodes = episodes.slice(0, 2)
+    const allEpisodes = episodes.slice(2)
+
     return {
-      id: episode.id,
-      title: episode.title,
-      thumbnail: episode.thumbnail,
-      members: episode.members,
-      publishedAt: format(parseISO(episode.published_at), 'd MMM yy', {
-        locale: ptBR
-      }),
-      duration: Number(episode.file.duration),
-      durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
-      url: episode.file.url
+      props: {
+        latestEpisodes,
+        allEpisodes,
+      },
+      revalidate: 60 * 60 * 8, // 8 hours
     }
-  })
-
-  const latestEpisodes = episodes.slice(0, 2)
-  const allEpisodes = episodes.slice(2)
-
-  return {
-    props: {
-      latestEpisodes,
-      allEpisodes
-    },
-    revalidate: 60 * 60 * 8 // 8 hours
+  } catch (error) {
+    console.log(error.message)
+    return {
+      props: {},
+    }
   }
 }

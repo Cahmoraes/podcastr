@@ -33,7 +33,9 @@ interface PlayerContextProviderProps {
 
 export const PlayerContext = createContext({} as PlayerContextData)
 
-export function PlayerContextProvider({ children }: PlayerContextProviderProps) {
+export function PlayerContextProvider({
+  children,
+}: PlayerContextProviderProps) {
   const [episodeList, setEpisodeList] = useState([])
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -69,11 +71,13 @@ export function PlayerContextProvider({ children }: PlayerContextProviderProps) 
   }
 
   const hasPrevious = currentEpisodeIndex > 1
-  const hasNext = isShuffling || (currentEpisodeIndex + 1) < episodeList.length
+  const hasNext = isShuffling || currentEpisodeIndex + 1 < episodeList.length
 
   function playNext() {
     if (isShuffling) {
-      const nextRandomEpisodeIndex = Math.floor(Math.random() * episodeList.length)
+      const nextRandomEpisodeIndex = Math.floor(
+        Math.random() * episodeList.length,
+      )
 
       setCurrentEpisodeIndex(nextRandomEpisodeIndex)
     } else if (hasNext) {
@@ -93,24 +97,26 @@ export function PlayerContextProvider({ children }: PlayerContextProviderProps) 
   }
 
   return (
-    <PlayerContext.Provider value={{
-      episodeList,
-      currentEpisodeIndex,
-      play,
-      isPlaying,
-      isLooping,
-      toggleLoop,
-      togglePlay,
-      setPlayingState,
-      playList,
-      playNext,
-      playPrevious,
-      hasPrevious,
-      hasNext,
-      toggleShuffle,
-      isShuffling,
-      clearPlayState
-    }}>
+    <PlayerContext.Provider
+      value={{
+        episodeList,
+        currentEpisodeIndex,
+        play,
+        isPlaying,
+        isLooping,
+        toggleLoop,
+        togglePlay,
+        setPlayingState,
+        playList,
+        playNext,
+        playPrevious,
+        hasPrevious,
+        hasNext,
+        toggleShuffle,
+        isShuffling,
+        clearPlayState,
+      }}
+    >
       {children}
     </PlayerContext.Provider>
   )

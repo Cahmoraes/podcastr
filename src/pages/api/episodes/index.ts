@@ -1,6 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import episodes from '../../../../server.json'
+import data from '../../../../server.json'
+// import { api } from '../../../services/api'
 
-export default function handler(request: NextApiRequest, response: NextApiResponse) {
-  response.json(episodes)
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse,
+) {
+  response.status(200).json(data)
 }

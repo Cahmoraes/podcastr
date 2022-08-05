@@ -10,7 +10,7 @@ import { convertDurationToTimeString } from '../../utils/convertDurationToTimeSt
 
 import styles from './episode.module.scss'
 
-interface Episode {
+interface IEpisode {
   id: string
   title: string
   thumbnail: string
@@ -23,13 +23,11 @@ interface Episode {
 }
 
 interface EpisodeProps {
-  episode: Episode
+  episode: IEpisode
 }
 
 export default function Episode({ episode }: EpisodeProps) {
-  const {
-    play
-  } = usePlayer()
+  const { play } = usePlayer()
 
   return (
     <div className={styles.episodeContainer}>
@@ -66,7 +64,7 @@ export default function Episode({ episode }: EpisodeProps) {
         <div
           className={styles.description}
           dangerouslySetInnerHTML={{
-            __html: episode.description
+            __html: episode.description,
           }}
         />
       </div>
@@ -79,17 +77,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: {
       _limit: 2,
       _sort: 'published_at',
-      _order: 'desc'
-    }
+      _order: 'desc',
+    },
   })
 
-  const paths = data.episodes.map(episode => ({
-    params: { slug: episode.id }
+  const paths = data.episodes.map((episode) => ({
+    params: { slug: episode.id },
   }))
 
   return {
     paths,
-    fallback: 'blocking'
+    fallback: 'blocking',
   }
 }
 
@@ -103,18 +101,18 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     thumbnail: data.thumbnail,
     members: data.members,
     publishedAt: format(parseISO(data.published_at), 'd MMM yy', {
-      locale: ptBR
+      locale: ptBR,
     }),
     duration: Number(data.file.duration),
     durationAsString: convertDurationToTimeString(Number(data.file.duration)),
     description: data.description,
-    url: data.file.url
+    url: data.file.url,
   }
 
   return {
     props: {
-      episode
+      episode,
     },
-    revalidate: 60 * 60 * 24 // hours
+    revalidate: 60 * 60 * 24, // hours
   }
 }

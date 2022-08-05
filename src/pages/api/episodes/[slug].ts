@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import episodes from '../../../../server.json'
+// import { api } from '../../../services/api'
+import data from '../../../../server.json'
 
-export default function handler(request: NextApiRequest, response: NextApiResponse) {
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse,
+) {
   const { slug } = request.query
-  const episode = episodes.episodes.find(episode => episode.id === slug)
-
-  response.json(episode)
+  const episode = data.episodes.find((episode) => episode.id === slug)
+  response.status(200).json(episode)
 }

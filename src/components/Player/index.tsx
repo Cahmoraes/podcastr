@@ -1,4 +1,3 @@
-
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { usePlayer } from '../../contexts/PlayerContext'
@@ -9,7 +8,6 @@ import styles from './styles.module.scss'
 import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString'
 
 export function Player() {
-
   const audioRef = useRef<HTMLAudioElement>(null)
   const [progress, setProgress] = useState(0)
 
@@ -27,7 +25,7 @@ export function Player() {
     toggleLoop,
     isShuffling,
     toggleShuffle,
-    clearPlayState
+    clearPlayState,
   } = usePlayer()
 
   useEffect(() => {
@@ -38,7 +36,6 @@ export function Player() {
     } else {
       audioRef.current.pause()
     }
-
   }, [isPlaying])
 
   function setupLoadListener() {
@@ -55,7 +52,7 @@ export function Player() {
   }
 
   function handleEpisodeEnded() {
-    if(hasNext) {
+    if (hasNext) {
       playNext()
     } else {
       clearPlayState()

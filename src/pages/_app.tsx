@@ -8,7 +8,6 @@ import styles from '../styles/app.module.scss'
 import { PlayerContextProvider } from '../contexts/PlayerContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
-
   return (
     <PlayerContextProvider>
       <div className={styles.wrapper}>

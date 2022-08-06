@@ -1,40 +1,30 @@
-## Podcastr
 
-<h4 align="center">
-  Podcastr is a platform built for podcast broadcasting.
-</h4>
+<h3 align="center">
+  <a href="https://podcastr-cahmoraes93.vercel.app/">Podcastr</a>
+</h3>
 
-## Tecnologies
+---
 
-This project was developed using cutting edge front-end technologies.
+## :rocket: Sobre
 
-- [ReactJS](https://reactjs.org/)
-- [Typescript](https://www.typescriptlang.org/)
+### :computer: Desktop
+<p align="center">
+  <img src="https://github.com/Cahmoraes/podcastr/blob/main/public/demo/demo.gif" alt="Podcastr">
+<p/>
+
+
+### :book: Aprendizado
+- Utilização dos recursos ISR = Incremental Static Regeneration, para geração de conteúdo estático com revalidação.
+- TAG Audio do HTML para tocar arquivos de áudio.
+
+
+## :computer: Tecnologias utilizadas
+
 - [Next.js](https://nextjs.org/)
+- [typescript](https://www.typescriptlang.org/)
+- [reactjs](https://pt-br.reactjs.org/)
+- [styled-components](https://styled-components.com/)
 
-## 💻 Getting started
+## :warning: Pré-requisitos
 
-### Requirements
-
-- You need to install both [Node.js](https://nodejs.org/en/download/) and [Yarn](https://yarnpkg.com/) to run this project.
-
-**Clone the project and access the folder**
-
-```bash
-$ git clone https://github.com/josepholiveira/podcastr.git && cd podcastr
-```
-
-**Follow the steps below**
-
-```bash
-# Install the dependencies
-$ yarn
-
-# Run the backend fake server
-$ yarn server
-
-# Run the web server
-$ yarn dev
-```
-
-The app will be available for access on your browser at `http://localhost:3000`
+- [git](https://git-scm.com/)
